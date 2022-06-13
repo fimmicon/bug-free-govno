@@ -1,5 +1,8 @@
-node("master") {
-        stage('build') {
-                sh 'python --version'
-        }
+pipeline {
+    agent none
+
+    stage('build') {
+            sh 'python --version'
+    }
+
 }
