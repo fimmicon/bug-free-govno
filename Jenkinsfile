@@ -1,14 +1,13 @@
 pipeline {
-    //agent { label 'master' }
     agent any
     stages {
-        stage('build') {
+        stage('Hello') {
             steps {
-                sh 'python --version'
-                sh '''
-                     cat /etc/centos-release
-                     hostname
-                '''
+                sh 'echo Hello World'
+                echo "Build result is ${currentBuild.result}"
+                echo "Build number is ${currentBuild.number}"
+                def currentResult = currentBuild.result ?: 'SUCCESS'
+		echo "Build result is ${currentBuild.result}"
             }
         }
     }
