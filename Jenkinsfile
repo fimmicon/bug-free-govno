@@ -1,8 +1,10 @@
 pipeline {
     agent none
-
-    stage('build') {
-            sh 'python --version'
+    stages {
+        stage('build') {
+            steps {
+                sh 'python --version'
+            }
+        }
     }
-
 }
