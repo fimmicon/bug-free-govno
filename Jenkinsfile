@@ -1,3 +1,3 @@
-node("dind") {
+node("master") {
      sh 'python --version'
 }
