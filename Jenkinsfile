@@ -1,9 +1,15 @@
-node {
-    stage('Build') {
-        sh 'echo "Hello World"'
-        sh '''
-            echo "Multiline shell steps works too"
-            hostname
-        '''
+pipeline {
+    //agent { label 'master' }
+    agent any
+    stages {
+        stage('build') {
+            steps {
+                sh 'python --version'
+                sh '''
+                     cat /etc/centos-release
+                     hostname
+                '''
+            }
+        }
     }
 }

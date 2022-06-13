@@ -1,11 +1,31 @@
+// Jenkinsfile (Scripted Pipeline)
+node {
+    stage('Build') {
+        sh 'echo "Hello World"'
+        sh '''
+            echo "Multiline shell steps works too"
+            hostname
+        '''
+    }
+}
+
+/*
+The same as 
+
+Jenkinsfile (Declarative Pipeline)
 pipeline {
-    agent { label 'master' }
+    agent any
     stages {
-        stage('build') {
+        stage('Build') {
             steps {
-                sh 'python --version'
-                sh 'cat /etc/centos-release'
+                sh 'echo "Hello World"'
+                sh '''
+                    echo "Multiline shell steps works too"
+                    ls -lah
+                '''
             }
         }
     }
 }
+
+*/
