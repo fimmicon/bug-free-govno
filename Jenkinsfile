@@ -1,3 +1,3 @@
 node("dind") {
-     sh 'php --version'
+     sh 'python --version'
 }
