@@ -1,3 +1,7 @@
 node("master") {
-     sh 'python --version'
+        stage('build') {
+            steps {
+                sh 'python --version'
+            }
+        }
 }
