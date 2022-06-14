@@ -4,4 +4,9 @@ node("master") {
                 sh 'pwd'
                 sh 'ls -la'
         }
+        stage('test') {
+                // Get file using input step, will put it in build directory
+                print "=================Please upload your property file here ====================="
+
+        }
 }
