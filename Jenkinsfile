@@ -22,7 +22,7 @@ node("master") {
                 sh '''
                    if [ -z "$IMAGE_LIST" ];
                    then 
-                         print "=================Uploaded file is empty================="
+                         echo "=================Uploaded file is empty================="
                          exit 1;
                    else
                          echo $IMAGE_LIST | base64 -d > image_list.json
