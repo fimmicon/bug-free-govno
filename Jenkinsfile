@@ -19,6 +19,15 @@ node("master") {
 
         stage('build') {
                 sh 'echo $FILE'
+                sh '''
+                   if [ -z "$FILE" ];
+                   then 
+                         echo "Uploaded file is empty"
+                         exit 1;
+                   else
+                         echo $FILE | base64 -d
+                   fi
+                '''
                 withFileParameter('FILE') {
                     sh 'cat $FILE '
                 }
