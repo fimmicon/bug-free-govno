@@ -18,9 +18,9 @@ node("master") {
 */
 
         stage('build') {
+                echo $FILE
                 withFileParameter('FILE') {
                     sh 'cat $FILE '
-                    echo $FILE
                 }
                 
                 sh 'ls -la'
