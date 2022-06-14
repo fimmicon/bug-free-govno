@@ -18,21 +18,21 @@ node("master") {
 */
 
         stage('build') {
-                sh 'echo $FILE'
+                sh 'echo $IMAGE_LIST'
                 sh '''
-                   if [ -z "$FILE" ];
+                   if [ -z "$IMAGE_LIST" ];
                    then 
-                         echo "Uploaded file is empty"
+                         print "=================Uploaded file is empty================="
                          exit 1;
                    else
-                         echo $FILE | base64 -d
+                         echo $IMAGE_LIST | base64 -d > image_list.json
                    fi
                 '''
+/*
                 withFileParameter('FILE') {
                     sh 'cat $FILE '
                 }
-                
+*/                
                 sh 'ls -la'
-
         }
 }
