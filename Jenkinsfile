@@ -1,12 +1,8 @@
-pipeline {
-    agent { label 'master' }
-    stages {
-        stage('Hello') {
-            steps {
-                sh 'echo Hello World'
-                echo "Build result is ${currentBuild.result}"
-                echo "Build number is ${currentBuild.number}"
-            }
+node("master") {
+    /* Requires the Docker Pipeline plugin to be installed */
+    docker.image('node:16.13.1-alpine').inside {
+        stage('Test') {
+            sh 'node --version'
         }
     }
 }
