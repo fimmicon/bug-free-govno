@@ -20,12 +20,13 @@ node("master") {
         stage('build') {
                 // The length of uploaded file is not zero
                 sh '''
-                   if [ -z "$IMAGE_LIST" ];
+                   if [ -z "$IMAGE_VERSION" ];
                    then 
-                         echo "=================Uploaded file is empty================="
+                         echo "=================Uploaded image_version file is empty================="
                          exit 1;
                    else
-                         echo $IMAGE_LIST | base64 -d > image_list.json
+                         echo $IMAGE_VERSION | base64 -d > image_version.json
+                         python -mjson.tool image_version.json &> /dev/null || ( echo " Uploaded image list file has invalid json syntax" && exit 1 )
                    fi
                 '''
 
