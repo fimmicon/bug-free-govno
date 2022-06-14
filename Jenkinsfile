@@ -1,10 +1,11 @@
 node("master") {
+
+/*
         stage('build') {
                 sh 'pwd'
                 sh 'ls -la'
         }
 
-/*
         stage('test') {
                 // Get file using input step, will put it in build directory
                 print "=================Please upload your property file here ====================="
@@ -16,10 +17,10 @@ node("master") {
         }
 */
 
-        stage('final') {
+        stage('build') {
                 sh 'echo $FILE'
                 sh 'echo $FILE | base64 -d'
-                withFileParameter('FILE') {
+                withFileParameter(name: 'FILE', allowNoFile: false) {
                     sh 'cat $FILE > list'
                 }
                 sh 'ls -la'
