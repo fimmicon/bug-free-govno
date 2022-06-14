@@ -18,7 +18,7 @@ node("master") {
 */
 
         stage('build') {
-                sh 'echo $IMAGE_LIST'
+                // The length of uploaded file is not zero
                 sh '''
                    if [ -z "$IMAGE_LIST" ];
                    then 
@@ -28,11 +28,13 @@ node("master") {
                          echo $IMAGE_LIST | base64 -d > image_list.json
                    fi
                 '''
+
 /*
                 withFileParameter('FILE') {
                     sh 'cat $FILE '
                 }
-*/                
+*/
+
                 sh 'ls -la'
         }
 }
