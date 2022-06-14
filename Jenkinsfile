@@ -20,9 +20,10 @@ node("master") {
                 sh 'echo $FILE'
                 sh 'echo $FILE | base64 -d'
                 withFileParameter('FILE') {
-                    sh 'cat $FILE'
+                    sh 'cat $FILE > list'
                 }
                 sh 'ls -la'
+                sh 'cat list'
 
         }
 }
