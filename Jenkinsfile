@@ -18,13 +18,10 @@ node("master") {
 */
 
         stage('build') {
-                sh 'echo $FILE'
-                sh 'echo $FILE | base64 -d'
                 withFileParameter(name: 'FILE', allowNoFile: false) {
-                    sh 'cat $FILE > list'
+                    sh 'cat $FILE '
                 }
                 sh 'ls -la'
-                sh 'cat list'
 
         }
 }
