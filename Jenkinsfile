@@ -36,7 +36,6 @@ node("msbuild") {
                 withFileParameter('FILE') {
                     sh 'cat $FILE '
                 }
-*/
-
         }
+*/
 }
