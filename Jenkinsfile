@@ -38,5 +38,10 @@ node("master") {
 */
 
                 sh 'ls -la'
+                dir('monitor'){
+                    sh 'pwd'
+                    sh 'ls -la'
+                }
+                sh 'ls -la'
         }
 }
