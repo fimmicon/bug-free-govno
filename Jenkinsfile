@@ -18,7 +18,8 @@ node("master") {
 */
 
         stage('build') {
-                // The length of uploaded file is not zero
+                // The length of uploaded file is not zero and json syntax is correct
+                checkout(scm)
                 sh '''
                    if [ -z "$IMAGE_VERSION" ];
                    then 
