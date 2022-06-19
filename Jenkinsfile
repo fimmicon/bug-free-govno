@@ -1,5 +1,3 @@
-import groovy.json.*
-
 node("dind") {
 
         stage('build') {
@@ -29,9 +27,12 @@ node("dind") {
                 println(cfg.image_list['ui'])
                 VERSION_UI = "${cfg.image_list['ui']}"
                 echo VERSION_UI
-                
-                def generator = new JsonGenerator.Options().excludeNulls()
-                
+
+		for (entry in cfg) {
+			println(entry)
+			
+		}
+
         }
 
 /*
