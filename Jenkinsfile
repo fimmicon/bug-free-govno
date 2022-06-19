@@ -25,7 +25,11 @@ node("dind") {
 		component = "timerideR"
                 println("=================================================")
 		println(GetTagFromJson(component));
-
+                Components = "ui,api,CS,BSM,ConfigAPI,QueueHandler,Dealer,MariaDB,Enricher,Correlator,Timerider,Notifier,Transformer,snmptrapd"
+                str = Components.split(',')
+                str.each{ val ->
+                println(GetTagFromJson(val))
+                }
         }
 
 /*
