@@ -20,18 +20,12 @@ node("dind") {
                 } catch (e) {
                    echo "Caught: ${e} JSON  syntax not valid."
                    currentBuild.result = 'FAILURE'
-                   sh 'exit 1'
                 }
 
 		component = "timerideR"
                 println("=================================================")
 		println(GetTagFromJson(component));
-                Components = "ui,api,CS,BSM,ConfigAPI,QueueHandler,Dealer,MariaDB,Enricher,Correlator,Timerider,Notifier,Transformer,snmptrapd"
-                str = Components.split(',')
-                str.each{val -> 
-                  println(GetTagFromJson(val))
-		}
-}
+
         }
 
 /*
@@ -83,6 +77,6 @@ def GetTagFromJson (component) {
         }
         else {
             println("Component " + component + " not found in given json file parameter")
-            sh 'exit 1'
+            exit 1
         }
 }
