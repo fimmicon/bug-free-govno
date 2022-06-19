@@ -1,8 +1,5 @@
 node("dind") {
-
         stage('build') {
-                sh 'hostname'
-                sh 'pwd'
                 sh 'ls -la'
                 sh 'cat /etc/*release*'
                 sh 'id'
@@ -15,7 +12,7 @@ node("dind") {
                 cat image_version.json
                 '''
 
-                def jsonSlurper = new JsonSlurper()
+                //def jsonSlurper = new JsonSlurper()
                 //cfg = jsonSlurper.parse(new File(image_version.json))
 
                 def cfg = readJSON file: 'image_version.json'
@@ -32,5 +29,4 @@ node("dind") {
 
                 
         }
-
 }
