@@ -26,7 +26,12 @@ node("dind") {
 		component = "timerideR"
                 println("=================================================")
 		println(GetTagFromJson(component));
-
+                Components = "ui,api,CS,BSM,ConfigAPI,QueueHandler,Dealer,MariaDB,Enricher,Correlator,Timerider,Notifier,Transformer,snmptrapd"
+                str = Components.split(',')
+                str.each{val -> 
+                  println(GetTagFromJson(val))
+		}
+}
         }
 
 /*
@@ -78,6 +83,6 @@ def GetTagFromJson (component) {
         }
         else {
             println("Component " + component + " not found in given json file parameter")
-            exit 1
+            sh 'exit 1'
         }
 jsonSlurper.parse(new File(filename))}
