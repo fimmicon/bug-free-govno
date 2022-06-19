@@ -21,12 +21,17 @@ node("dind") {
                 def cfg = readJSON file: 'image_version.json'
                 //IMAGELIST = "${config.image_list}"
                 //echo IMAGELIST
+                
                 println(cfg)
                 println(cfg['image_list'])
                 println(cfg.image_list[0])
                 println(cfg.image_list['ui'])
+                /OR
                 VERSION_UI = "${cfg.image_list['ui']}"
                 echo VERSION_UI
+
+                def mapa = toToLinkedHashMap(cfg)
+                println(mapa)
                 
         }
 
@@ -64,4 +69,22 @@ node("dind") {
         }
 
 */
+}
+
+def toToLinkedHashMap(def obj) {
+    if (obj instanceof groovy.json.internal.LazyValueMap) {
+        Map copy = [:];
+        for (pair in (obj as Map)) {
+            copy.put(pair.key, toToLinkedHashMap(pair.value));
+        }
+        return copy;
+    }
+    if (obj instanceof groovy.json.internal.ValueList) {
+        List copy = [];
+        for (item in (obj as List)) {
+            copy.add(toToLinkedHashMap(item));
+        }
+        return copy;
+    }
+    return obj;
 }
