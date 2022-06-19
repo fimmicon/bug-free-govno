@@ -1,4 +1,6 @@
 import groovy.json.JsonSlurper
+import groovy.json.JsonGenerator
+
 node("dind") {
 
         stage('build') {
