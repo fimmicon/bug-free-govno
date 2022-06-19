@@ -4,42 +4,14 @@ import groovy.json.JsonSlurper
 node("dind") {
 
         stage('build') {
-                //sh 'sudo apk add jq'
-                // sh ' python --version'
-                // sh ' python3 --version'
-                // sh 'jq --version'
                 sh '''
                 echo $IMAGE_VERSION | base64 -d > image_version.json
                 cat image_version.json
                 '''
 
-                //def jsonSlurper = new JsonSlurper()
-                //cfg = jsonSlurper.parse(new File(image_version.json))
-
-                def cfg = readJSON file: 'image_version.json'
-                //IMAGELIST = "${config.image_list}"
-                //echo IMAGELIST
-                println(cfg)
-                println(cfg['image_list'])
-                println(cfg.image_list[0])
-                println(cfg.image_list['ui'])
-                VERSION_UI = "${cfg.image_list['ui']}"
-                echo VERSION_UI
-
-                
-		//def data = cfg['image_list']
-		
-		def image_list = JsonOutput.toJson(cfg['image_list'])
-                image_list = image_list.toLowerCase()
-		println(image_list)
-		def list = new JsonSlurper().parseText( image_list )
-                println(list)
-                
-		for (entry in list) {
-                        print "========================================="
-                        
-			println(entry)
-		}
+		component = "timerideR"
+                println("============================")
+		println(GetTagFromJson(component));
 
         }
 
@@ -73,4 +45,25 @@ node("dind") {
                 }
         }
 */
+}
+
+def GetTagFromJson (component) {
+        component = component.toLowerCase()
+	def cfg = readJSON file: 'image_version.json'
+        def image_list = JsonOutput.toJson(cfg['image_list'])
+        def list = new JsonSlurper().parseText( image_list.toLowerCase() )
+	def tag = null;
+
+	for (entry in list) {
+                if ( entry[component] != null) {
+                	tag = entry[component]
+		}
+        }
+        if( tag != null) {
+            return tag
+        }
+        else {
+            println("Component " + component + " not found in given json file parameter")
+            exit 1
+        }
 }
