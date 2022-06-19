@@ -29,6 +29,8 @@ node("dind") {
                 VERSION_UI = "${cfg.image_list['ui']}"
                 echo VERSION_UI
                 
+                def generator = new JsonGenerator.Options().excludeNulls()
+                
         }
 
 /*
