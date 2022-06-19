@@ -1,4 +1,4 @@
-node("msbuild") {
+node("dind") {
 
         stage('build') {
                 sh 'hostname'
@@ -16,10 +16,10 @@ node("msbuild") {
                 // Stash it for use in a different part of the pipeline
                 stash name: 'data', includes: 'image_version.json'
         }
+*/
 
-
-        stage('build') {
-                // The length of uploaded file is not zero and json syntax is correct
+        stage('build2') {
+                // Check length of uploaded file is not zero and json syntax is correct
                 checkout(scm)
                 sh '''
                    if [ -z "$IMAGE_VERSION" ];
@@ -31,11 +31,17 @@ node("msbuild") {
                          python -mjson.tool image_version.json &> /dev/null || ( echo "=================Uploaded image list file has invalid json syntax=================" && exit 1 )
                    fi
                 '''
+                
+                sh ' python --version'
+                sh ' python3 --version'
+                sh 'jq --version'
 
-
+/*
                 withFileParameter('FILE') {
                     sh 'cat $FILE '
                 }
-        }
 */
+
+        }
+
 }
