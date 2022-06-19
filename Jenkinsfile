@@ -29,8 +29,8 @@ node("dind") {
                 echo VERSION_UI
 
 		for (entry in cfg.image_list) {
-                        print "=================Please upload your property file here ====================="
-			println(entry)
+                        print "========================================="
+			println(entry.key AND entry.value)
 			
 		}
 
