@@ -25,6 +25,8 @@ node("dind") {
                 println(cfg['image_list'])
                 println(cfg.image_list[0])
                 println(cfg.image_list['ui'])
+                VERSION_UI = "${cfg.image_list['ui']}"
+                echo VERSION_UI
                 
         }
 
