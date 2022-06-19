@@ -18,6 +18,7 @@ node("dind") {
                 try {
                    readJSON file: 'image_version.json'
                 } catch (e) {
+                   println("")
                    echo "Caught: ${e} JSON  syntax not valid."
                    currentBuild.result = 'FAILURE'
                 }
