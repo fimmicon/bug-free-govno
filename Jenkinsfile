@@ -30,8 +30,8 @@ node("dind") {
 		//def data = cfg['image_list']
 		
 		def image_list = JsonOutput.toJson(cfg['image_list'])
+                image_list = image_list.toLowerCase()
 		println(image_list)
-                println(image_list.toLowerCase())
 
 		for (entry in cfg.image_list) {
                         print "========================================="
