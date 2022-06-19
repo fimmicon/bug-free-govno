@@ -32,13 +32,11 @@ node("dind") {
 		def image_list = JsonOutput.toJson(cfg['image_list'])
                 image_list = image_list.toLowerCase()
 		println(image_list)
-
-		for (entry in cfg.image_list) {
+		def list = new JsonSlurper().parseText( image_list )
+                
+		for (entry in list) {
                         print "========================================="
-                        entry.value.each{ key, value ->
-			  println(key)
-			  println(value)
-                        }
+			println(value)
 		}
 
         }
