@@ -12,9 +12,9 @@ node("dind") {
                 // sh 'jq --version'
                 echo $IMAGE_VERSION | base64 -d > image_version.json
                 cat image_version.json
-                def config = readJSON file: 'config.json'
-                IMAGELIST = "${config.image_list}"
-                echo $IAMGELIST
+                //def config = readJSON file: 'config.json'
+                //IMAGELIST = "${config.image_list}"
+                //echo $IAMGELIST
                 
         }
 
