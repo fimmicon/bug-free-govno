@@ -15,7 +15,7 @@ node("dind") {
                 cat image_version.json
                 '''
 
-                //def jsonSlurper = new JsonSlurper()
+                def jsonSlurper = new JsonSlurper()
                 //cfg = jsonSlurper.parse(new File(image_version.json))
 
                 def cfg = readJSON file: 'image_version.json'
