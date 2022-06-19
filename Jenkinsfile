@@ -1,3 +1,6 @@
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+
 node("dind") {
 
         stage('build') {
@@ -27,6 +30,12 @@ node("dind") {
                 println(cfg.image_list['ui'])
                 VERSION_UI = "${cfg.image_list['ui']}"
                 echo VERSION_UI
+
+                
+		//def data = cfg['image_list']
+		
+		def json_str2 = JsonOutput.toJson(cfg['image_list'])
+		println(json_str2)
 
 		for (entry in cfg.image_list) {
                         print "========================================="
