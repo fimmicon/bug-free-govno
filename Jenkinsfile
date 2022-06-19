@@ -20,6 +20,7 @@ node("dind") {
                 } catch (e) {
                    echo "Caught: ${e} JSON  syntax not valid."
                    currentBuild.result = 'FAILURE'
+                   sh 'exit 1'
                 }
 
 		component = "timerideR"
