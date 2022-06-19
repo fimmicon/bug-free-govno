@@ -1,4 +1,4 @@
-node("dind") {
+node("master") {
 
         stage('build') {
                 sh 'hostname'
