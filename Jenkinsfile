@@ -16,7 +16,7 @@ node("dind") {
                 '''
                 def config = readJSON file: 'image_version.json'
                 IMAGELIST = "${config.image_list}"
-                sh 'echo $IMAGELIST'
+                echo $IMAGELIST
                 
         }
 
