@@ -4,7 +4,7 @@ node("dind") {
                 sh 'hostname'
                 sh 'pwd'
                 sh 'ls -la'
-                sh ' python --version'
+                // sh ' python --version'
                 sh ' python3 --version'
                 sh 'jq --version'
         }
