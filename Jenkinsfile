@@ -48,8 +48,8 @@ node("dind") {
                 withFileParameter('FILE') {
                     sh 'cat $FILE '
                 }
-*/
 
         }
 
+*/
 }
