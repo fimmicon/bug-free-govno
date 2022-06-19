@@ -28,7 +28,8 @@ node("dind") {
                 VERSION_UI = "${cfg.image_list['ui']}"
                 echo VERSION_UI
 
-		for (entry in cfg) {
+		for (entry in cfg.image_list) {
+                        print "=================Please upload your property file here ====================="
 			println(entry)
 			
 		}
