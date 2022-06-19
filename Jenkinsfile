@@ -14,9 +14,9 @@ node("dind") {
                 echo $IMAGE_VERSION | base64 -d > image_version.json
                 cat image_version.json
                 '''
-                def config = readJSON file: 'config.json'
+                def config = readJSON file: 'image_version.json'
                 IMAGELIST = "${config.image_list}"
-                sh 'echo $IAMGELIST'
+                sh 'echo $IMAGELIST'
                 
         }
 
