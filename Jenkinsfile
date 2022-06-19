@@ -15,10 +15,10 @@ node("dind") {
                 cat image_version.json
                 '''
 
-                def jsonSlurper = new JsonSlurper()
-                cfg = jsonSlurper.parse(new File(image_version.json))
+                //def jsonSlurper = new JsonSlurper()
+                //cfg = jsonSlurper.parse(new File(image_version.json))
 
-                //def config = readJSON file: 'image_version.json'
+                def cfg = readJSON file: 'image_version.json'
                 //IMAGELIST = "${config.image_list}"
                 //echo IMAGELIST
                 println(cfg)
