@@ -5,7 +5,7 @@ node("dind") {
                 sh 'pwd'
                 sh 'ls -la'
                 // sh ' python --version'
-                sh ' python3 --version'
+                // sh ' python3 --version'
                 sh 'jq --version'
         }
 
