@@ -4,11 +4,6 @@ import groovy.json.JsonSlurper
 node("dind") {
 
         stage('build') {
-                sh 'hostname'
-                sh 'pwd'
-                sh 'ls -la'
-                sh 'cat /etc/*release*'
-                sh 'id'
                 //sh 'sudo apk add jq'
                 // sh ' python --version'
                 // sh ' python3 --version'
@@ -34,8 +29,9 @@ node("dind") {
                 
 		//def data = cfg['image_list']
 		
-		def json_str2 = JsonOutput.toJson(cfg['image_list'])
-		println(json_str2)
+		def image_list = JsonOutput.toJson(cfg['image_list'])
+		println(image_list)
+                println(image_list.toLowerCase())
 
 		for (entry in cfg.image_list) {
                         print "========================================="
