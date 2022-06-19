@@ -33,6 +33,8 @@ node("dind") {
                 
         }
 
+}
+
 /*
         stage('test') {
                 // Get file using input step, will put it in build directory
@@ -65,7 +67,4 @@ node("dind") {
                 }
 
         }
-
-*/
-}
-
+ */
