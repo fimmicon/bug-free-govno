@@ -30,9 +30,10 @@ node("dind") {
 
 		for (entry in cfg.image_list) {
                         print "========================================="
-			println(entry.key)
-			println(entry.value)
-			
+                        entry.value.each{ key, value ->
+			  println(key)
+			  println(value)
+                        }
 		}
 
         }
