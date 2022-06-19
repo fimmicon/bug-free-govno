@@ -77,6 +77,6 @@ def GetTagFromJson (component) {
         }
         else {
             println("Component " + component + " not found in given json file parameter")
-            exit 1
+            sh 'exit 1'
         }
 }
