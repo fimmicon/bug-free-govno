@@ -36,7 +36,8 @@ node("dind") {
                 
 		for (entry in list) {
                         print "========================================="
-			println(value)
+                        
+			println(entry)
 		}
 
         }
