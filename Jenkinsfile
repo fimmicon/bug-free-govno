@@ -16,11 +16,10 @@ node("dind") {
                 '''
 
                 try {
-                   def json = readJSON file: 'image_version.json'
-                   JsonOutput.prettyPrint(json)
-                } catch (ignored) {
-                   println("Given Json file parameter has invalid syntax")
-                   return "INVALID"
+                   readJSON file: 'image_version.json'
+                } catch (e) {
+                   echo "Caught: ${e} JSON not valid."
+                   currentBuild.result = 'FAILURE'
                 }
 
 		component = "timerideR"
