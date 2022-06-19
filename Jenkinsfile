@@ -4,9 +4,11 @@ node("dind") {
                 sh 'hostname'
                 sh 'pwd'
                 sh 'ls -la'
+                sh 'cat /etc/*release*'
+                sh 'apt install jq'
                 // sh ' python --version'
                 // sh ' python3 --version'
-                sh 'jq --version'
+                // sh 'jq --version'
         }
 
 /*
