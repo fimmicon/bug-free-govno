@@ -15,7 +15,7 @@ node("dind") {
                 cat image_version.json
                 '''
 
-                //def jsonSlurper = new JsonSlurper()
+                def jsonSlurper = new JsonSlurper()
                 //cfg = jsonSlurper.parse(new File(image_version.json))
 
                 def cfg = readJSON file: 'image_version.json'
@@ -30,8 +30,6 @@ node("dind") {
                 VERSION_UI = "${cfg.image_list['ui']}"
                 echo VERSION_UI
 
-                def mapa = toToLinkedHashMap(cfg)
-                println(mapa)
                 
         }
 
@@ -71,20 +69,3 @@ node("dind") {
 */
 }
 
-def toToLinkedHashMap(def obj) {
-    if (obj instanceof groovy.json.internal.LazyValueMap) {
-        Map copy = [:];
-        for (pair in (obj as Map)) {
-            copy.put(pair.key, toToLinkedHashMap(pair.value));
-        }
-        return copy;
-    }
-    if (obj instanceof groovy.json.internal.ValueList) {
-        List copy = [];
-        for (item in (obj as List)) {
-            copy.add(toToLinkedHashMap(item));
-        }
-        return copy;
-    }
-    return obj;
-}
