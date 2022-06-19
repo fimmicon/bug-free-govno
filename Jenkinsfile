@@ -6,10 +6,16 @@ node("dind") {
                 sh 'ls -la'
                 sh 'cat /etc/*release*'
                 sh 'id'
-                sh 'sudo apk add jq'
+                //sh 'sudo apk add jq'
                 // sh ' python --version'
                 // sh ' python3 --version'
                 // sh 'jq --version'
+                echo $IMAGE_VERSION | base64 -d > image_version.json
+                cat image_version.json
+                def config = readJSON file: 'config.json'
+                IMAGELIST = "${config.image_list}"
+                echo $IAMGELIST
+                
         }
 
 /*
@@ -22,7 +28,6 @@ node("dind") {
                 // Stash it for use in a different part of the pipeline
                 stash name: 'data', includes: 'image_version.json'
         }
-*/
 
         stage('build2') {
                 // Check length of uploaded file is not zero and json syntax is correct
@@ -40,7 +45,6 @@ node("dind") {
                 '''
                 
 
-/*
                 withFileParameter('FILE') {
                     sh 'cat $FILE '
                 }
