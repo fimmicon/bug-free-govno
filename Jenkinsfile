@@ -85,4 +85,4 @@ def GetTagFromJson (component) {
             println("Component " + component + " not found in given json file parameter")
             sh 'exit 1'
         }
-jsonSlurper.parse(new File(filename))}
+}
