@@ -14,9 +14,17 @@ node("dind") {
                 echo $IMAGE_VERSION | base64 -d > image_version.json
                 cat image_version.json
                 '''
-                def config = readJSON file: 'image_version.json'
-                IMAGELIST = "${config.image_list}"
-                echo IMAGELIST
+
+                def jsonSlurper = new JsonSlurper()
+                cfg = jsonSlurper.parse(new File(image_version.json))
+
+                //def config = readJSON file: 'image_version.json'
+                //IMAGELIST = "${config.image_list}"
+                //echo IMAGELIST
+                println(cfg)
+                println(cfg['image_list'])
+                println(cfg.image_list[0])
+                println(cfg.image_list['ui'])
                 
         }
 
