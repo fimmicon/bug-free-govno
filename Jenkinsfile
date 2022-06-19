@@ -10,11 +10,13 @@ node("dind") {
                 // sh ' python --version'
                 // sh ' python3 --version'
                 // sh 'jq --version'
+                sh '''
                 echo $IMAGE_VERSION | base64 -d > image_version.json
                 cat image_version.json
-                //def config = readJSON file: 'config.json'
-                //IMAGELIST = "${config.image_list}"
-                //echo $IAMGELIST
+                '''
+                def config = readJSON file: 'config.json'
+                IMAGELIST = "${config.image_list}"
+                sh 'echo $IAMGELIST'
                 
         }
 
