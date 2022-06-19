@@ -28,6 +28,7 @@ node("dind") {
                          exit 1;
                    else
                          echo $IMAGE_VERSION | base64 -d > image_version.json
+                         cat image_version.json
                          python -mjson.tool image_version.json &> /dev/null || ( echo "=================Uploaded image list file has invalid json syntax=================" && exit 1 )
                    fi
                 '''
