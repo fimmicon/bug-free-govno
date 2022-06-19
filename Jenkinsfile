@@ -5,7 +5,7 @@ node("dind") {
                 sh 'pwd'
                 sh 'ls -la'
                 sh 'cat /etc/*release*'
-                sh 'apt install jq'
+                sh 'apk add jq'
                 // sh ' python --version'
                 // sh ' python3 --version'
                 // sh 'jq --version'
