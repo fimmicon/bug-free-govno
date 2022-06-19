@@ -1,9 +1,12 @@
-node("master") {
+node("dind") {
 
         stage('build') {
                 sh 'hostname'
                 sh 'pwd'
                 sh 'ls -la'
+                sh ' python --version'
+                sh ' python3 --version'
+                sh 'jq --version'
         }
 
 /*
@@ -33,9 +36,6 @@ node("master") {
                    fi
                 '''
                 
-                sh ' python --version'
-                sh ' python3 --version'
-                sh 'jq --version'
 
 /*
                 withFileParameter('FILE') {
