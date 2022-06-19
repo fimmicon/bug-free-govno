@@ -5,9 +5,23 @@ node("dind") {
 
         stage('build') {
                 sh '''
-                echo $IMAGE_VERSION | base64 -d > image_version.json
-                cat image_version.json
+                   if [ -z "$IMAGE_VERSION" ];
+                   then
+                         echo "=================Uploaded image_version file is empty================="
+                         exit 1;
+                   else
+                         echo $IMAGE_VERSION | base64 -d > image_version.json
+                         cat image_version.json
+                   fi
                 '''
+
+                try {
+                   def json = readJSON file: 'image_version.json'
+                   JsonOutput.prettyPrint(json)
+                } catch (ignored) {
+                   println("Given Json file parameter has invalid syntax")
+                   return "INVALID"
+                }
 
 		component = "timerideR"
                 println("============================")
@@ -66,4 +80,4 @@ def GetTagFromJson (component) {
             println("Component " + component + " not found in given json file parameter")
             exit 1
         }
-}
+jsonSlurper.parse(new File(filename))}
