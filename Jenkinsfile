@@ -18,12 +18,12 @@ node("dind") {
                 try {
                    readJSON file: 'image_version.json'
                 } catch (e) {
-                   echo "Caught: ${e} JSON not valid."
+                   echo "Caught: ${e} JSON  syntax not valid."
                    currentBuild.result = 'FAILURE'
                 }
 
 		component = "timerideR"
-                println("============================")
+                println("=================================================")
 		println(GetTagFromJson(component));
 
         }
