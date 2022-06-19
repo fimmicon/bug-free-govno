@@ -33,6 +33,7 @@ node("dind") {
                 image_list = image_list.toLowerCase()
 		println(image_list)
 		def list = new JsonSlurper().parseText( image_list )
+                println(list)
                 
 		for (entry in list) {
                         print "========================================="
