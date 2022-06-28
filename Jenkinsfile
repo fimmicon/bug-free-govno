@@ -13,11 +13,12 @@ node("dind") {
 		appInfraImages = "1,2,3,4,5,6,7,8,mariadb,postgresql,elasticsearch,influxdb,redis,minideb-stretch,minideb-latest,cp-kafka,kubectl_deployer,k8szk".split(',')
 		LIST = ''
 		for (comp in appInfraImages) {
-			if ( fileExists('app-images/${comp}.log') ) {
-				echo "Yes $comp"
-				LIST+="$comp "
+			a = "app-images/${comp}.log"
+			if ( fileExists('${a}') ) {
+				echo "Yes $a"
+				LIST+="$a "
 			} else {
-				echo "No $comp"
+				echo "No $a"
 			}
 		}
 		echo "$LIST"
