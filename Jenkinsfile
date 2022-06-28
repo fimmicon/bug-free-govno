@@ -13,12 +13,8 @@ node("dind") {
 		LIST = ''
 		for (comp in appInfraImages) {
 			a = "app-images/${comp}.log"
-			println(a)
 			if ( fileExists("app-images/${comp}.log") ) {
-				echo "Yes $a"
 				LIST+="$a "
-			} else {
-				echo "No $a"
 			}
 		}
 		echo "$LIST"
