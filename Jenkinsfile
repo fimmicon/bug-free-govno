@@ -18,6 +18,12 @@ node("dind") {
 			}
 		}
 		echo "$LIST"
+		sh "echo $LIST"
+		withEnv(["list=${LIST}"]) {
+			echo "inside"
+			echo "$LIST"
+			sh "echo $LIST"
+		}
 		
 		sh 'tar -cvf app-infra-images.tar ${LIST} --remove-files'
 		sh "tar-tf app-infra-images.tar"
