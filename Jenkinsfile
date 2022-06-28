@@ -5,8 +5,6 @@ node("dind") {
 		LIST = ''
 		for (comp in appInfraImages) {
 			if ( ! fileExists('$comp') ) {
-				echo 'Yes'
-			} else {
 				LIST+="$comp "
 			}
 		}
