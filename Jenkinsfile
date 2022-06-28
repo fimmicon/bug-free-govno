@@ -4,34 +4,39 @@ import groovy.json.JsonSlurper
 node("dind") {
 
         stage('build') {
-                sh '''
-                   if [ -z "$IMAGE_VERSION" ];
-                   then
-                         echo "=================Uploaded image_version file is empty================="
-                         exit 1;
-                   else
-                         echo $IMAGE_VERSION | base64 -d > image_version.json
-                         cat image_version.json
-                   fi
+		sh """
+		for i in app-images/{mariadb,postgresql,elasticsearch,influxdb,redis,minideb-stretch,minideb-latest,cp-kafka,kubectl_deployer,k8szk}.tar ; do echo "$i "; done
+		"""
+		
+		
+//                 sh '''
+//                    if [ -z "$IMAGE_VERSION" ];
+//                    then
+//                          echo "=================Uploaded image_version file is empty================="
+//                          exit 1;
+//                    else
+//                          echo $IMAGE_VERSION | base64 -d > image_version.json
+//                          cat image_version.json
+//                    fi
                 '''
 
-                try {
-                   readJSON file: 'image_version.json'
-                } catch (e) {
-                   println("")
-                   echo "Caught: ${e} JSON  syntax not valid."
-                   currentBuild.result = 'FAILURE'
-                }
+//                 try {
+//                    readJSON file: 'image_version.json'
+//                 } catch (e) {
+//                    println("")
+//                    echo "Caught: ${e} JSON  syntax not valid."
+//                    currentBuild.result = 'FAILURE'
+//                 }
 
-                Components = "ui,api,CS,BSM,ConfigAPI,QueueHandler,Dealer,MariaDB,Enricher,Correlator,Timerider,Notifier,Transformer,snmptrapd"
-                str = Components.split(',')
-                str.each{ val ->
-                println(GetTagFromJson(val))
-                }
+//                 Components = "ui,api,CS,BSM,ConfigAPI,QueueHandler,Dealer,MariaDB,Enricher,Correlator,Timerider,Notifier,Transformer,snmptrapd"
+//                 str = Components.split(',')
+//                 str.each{ val ->
+//                 println(GetTagFromJson(val))
+//                 }
 
- 		component = "timerideR"
-                println("=================================================")
-		println(GetTagFromJson(component));
+//  		component = "timerideR"
+//                 println("=================================================")
+// 		println(GetTagFromJson(component));
 
        }
 
