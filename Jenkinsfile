@@ -5,7 +5,7 @@ node("dind") {
 		for (comp in appInfraImages) {
 		    sh """
 		    [ ! -f $comp ] && LIST+="$comp "
-		    echo "$LIST"
+		    echo "\$LIST"
 		    """
 		}
        }
