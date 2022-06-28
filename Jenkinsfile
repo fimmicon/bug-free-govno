@@ -19,7 +19,10 @@ node("dind") {
 		}
 		echo "$LIST"
 		
-		//sh "tar -cvf app-infra-images.tar "$LIST" --remove-files"
+		sh "tar -cvf app-infra-images.tar "$LIST" --remove-files"
+		sh "tar-tf app-infra-images.tar"
+		sh "ls -la"
+		sh "ls -la app-images/"
 		
        }
 
