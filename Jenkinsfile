@@ -8,7 +8,8 @@ node("dind") {
 			mv *.log app-images/
 		'''
 		sh ' ls -la app-images/ '
-		
+		def exists = fileExists 'app-images/1.log'
+		println(exists)
 		
 		appInfraImages = "1,2,3,4,5,6,7,8,mariadb,postgresql,elasticsearch,influxdb,redis,minideb-stretch,minideb-latest,cp-kafka,kubectl_deployer,k8szk".split(',')
 		LIST = ''
