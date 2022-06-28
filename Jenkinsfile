@@ -14,7 +14,10 @@ node("dind") {
 		for (comp in appInfraImages) {
 			comp = "app-images/${comp}.log"
 			if ( fileExists('$comp') ) {
+				echo "Yes $comp"
 				LIST+="$comp "
+			} else {
+				echo "No $comp"
 			}
 		}
 		echo "$LIST"
