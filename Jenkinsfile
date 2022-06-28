@@ -4,6 +4,7 @@ node("dind") {
 		sh '''
 			mkdir app-images
 			touch 1.log 2.log 3.log 4.log 5.log 6.log 7.log 8.log
+			echo 123 > 1.log
 			mv *.log app-images/
 		'''
 		sh ' ls -la app-images/ '
