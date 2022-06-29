@@ -2,6 +2,11 @@ node("dind") {
 
         stage('build') {
 		println Components
+		
+		str = Components.split(',');
+		str.each{ val ->
+			println(val)
+		}
 		if (Components == "") {
 			println("Empty")
 		}
