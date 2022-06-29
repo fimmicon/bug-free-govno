@@ -6,8 +6,8 @@ node("dind") {
 			println("Empty")
 		}
 		
-		if (Components ==~ /.*UI.*/){ 
-			println("UI tuta")
+		if (Components ==~ /.*Timerider.*/){ 
+			println("Timerider tuta")
 		}
 		if (Components == "ui,api,CS,BSM,ConfigAPI,QueueHandler,Dealer,MariaDB,Enricher,Correlator,Timerider,Notifier,Transformer,snmptrapd,sqlrunner"){ 
 			println("full length")
