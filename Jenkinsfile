@@ -1,6 +1,7 @@
 node("dind") {
 
         stage('build') {
+		println Artifact
 		println Components
 		
 		str = Components.split(',');
