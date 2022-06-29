@@ -2,6 +2,10 @@ node("dind") {
 
         stage('build') {
 		println Components
+		if (Components == "") {
+			println("Empty")
+		}
+		
 		if (Components ==~ /.*UI.*/){ 
 			println("UI tuta")
 		}
