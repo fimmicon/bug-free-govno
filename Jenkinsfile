@@ -5,7 +5,7 @@ node("dind") {
 		if (fileExists("devops"))
 			println("devops exists")
 		
-		if (fileExists("devops/"))
+		if (fileExists("devops/."))
 			println("devops/ exists")
 		
        }
