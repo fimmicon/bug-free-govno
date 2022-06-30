@@ -1,7 +1,7 @@
 node("dind") {
 
         stage('build') {
-		sh 'mkdir devops'
+		sh 'touch devops'
 		if (fileExists("devops"))
 			println("devops exists")
 		
