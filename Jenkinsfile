@@ -5,10 +5,11 @@ node("dind") {
 		println(Components)
 		
 		Artifact = Artifact.split(',')
-		Components = Components.split(',')	
-		
-		println(Artifact)
-		println(Components)
+		if ( !(Artifact.contains('app-infra') && Components ==~ /.*MariaDB.*/  )) {
+			println("=================app-infra is selected, but MariaDB not selected=================")
+			return
+		}
+
        }
 
 }
