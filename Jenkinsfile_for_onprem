@@ -1,0 +1,20 @@
+// Jenkinsfile (Scripted Pipeline)
+node {
+    stage('Download artifact') {
+        sh 'echo "Hello World"'
+        sh '''
+            echo "Multiline shell steps works too"
+            hostname
+            pwd
+            ls -la 
+        '''
+    }
+
+    stage('init-install') {
+        sh '''
+            pwd
+            ls -la
+            echo test_parameter = $LINUX_USER
+        '''
+    }
+}
