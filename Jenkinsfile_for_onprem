@@ -116,7 +116,7 @@ EOF
 
     stage('skipper.sh') {
         sh '''
-            #ssh $LINUX_USER@$IP_ADDRESS 'cd /root/devops/ ; ./skipper.sh -p docker-playbook/files/app-images.tar.gz
+            ssh $LINUX_USER@$IP_ADDRESS 'cd /root/devops/ ; ./skipper.sh -p docker-playbook/files/app-images.tar.gz
         '''
     }
 }
