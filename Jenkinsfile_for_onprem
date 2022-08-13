@@ -9,12 +9,12 @@ node {
         '''
 
         sh '''
-# Build inventory file for ansible and hosts file
-cat <<EOF >inventory
+            # Build inventory file for ansible and hosts file
+            cat <<EOF >inventory
 node1 ansible_host=$IP_ADDRESS ansible_user=$LINUX_USER ansible_password=$LINUX_PASS
 EOF
 
-cat <<EOF >hosts
+            cat <<EOF >hosts
 [local]
 controller ansible_host=$IP_ADDRESS ansible_user=iadmin ansible_become=true ansible_connection=local
 
@@ -50,7 +50,7 @@ metallb_ipaddress=$METALLLB_IPADDRESS
 metallb_range=$METALLLB_IPADDRESS
 image_tag=$IMAGE_TAG
 dns_name=demo.centerity
-EOF
+            EOF
         '''
 
         sh 'cat inventory'
