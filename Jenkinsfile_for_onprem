@@ -1,6 +1,6 @@
 // Jenkinsfile (Scripted Pipeline)
 node {
-    stage('Download artifact') {
+    stage('Prepare artifact') {
         sh '''
             # Remove ssh public keys (they can be old and not actual)
             ssh-keygen -f "/home/ubuntu/.ssh/known_hosts" -R "$IP_ADDRESS"
@@ -56,8 +56,6 @@ dns_name=demo.centerity
 EOF
         '''
 
-        sh 'cat inventory'
-        sh 'cat hosts'
         sh '''
             # Download artifact on $IP_ADDRESS machine
             ARTIFACT_NAME=$(echo $NEXUS_URL |  awk -F'/' '{print $NF}')
@@ -90,16 +88,26 @@ EOF
         group: '1000'
         mode: '0644'
 EOF
+
+        ansible-playbook -i inventory playbook_on_prem_isntallation.yaml
     '''
     }
 
-    stage('init-install') {
+    stage('init-install.sh') {
         sh '''
-            pwd
-            cat playbook_on_prem_isntallation.yaml
-            ls -la
-            echo test_parameter = $LINUX_USER
-            #ansible-playbook -i inventory playbook_on_prem_isntallation.yaml
+            ssh $LINUX_USER@$IP_ADDRESS 'cd /root/devops/ ; ./init-install.sh'
+        '''
+    }
+
+    stage('k8s-install.sh') {
+        sh '''
+            ssh $LINUX_USER@$IP_ADDRESS 'cd /root/devops/ ; ./k8s-install.sh'
+        '''
+    }
+
+    stage('skipper.sh') {
+        sh '''
+            #ssh $LINUX_USER@$IP_ADDRESS 'cd /root/devops/ ; ./skipper.sh -p docker-playbook/files/app-images.tar.gz
         '''
     }
 }
