@@ -9,13 +9,52 @@ node {
         '''
 
         sh '''
-# Build inventory file for ansible
+# Build inventory file for ansible and hosts file
 cat <<EOF >inventory
 node1 ansible_host=$IP_ADDRESS ansible_user=$LINUX_USER ansible_password=$LINUX_PASS
+EOF
+
+cat <<EOF >hosts
+[local]
+controller ansible_host=$IP_ADDRESS ansible_user=iadmin ansible_become=true ansible_connection=local
+
+
+[k8s_masters:children]
+local
+
+
+[k8s_masters:vars]
+
+
+[k8s_workers]
+#k8s-2 ansible_host=10.0.1.19 new_hostname=k8s-2
+#k8s-3 ansible_host=10.0.1.234 new_hostname=k8s-3
+
+
+
+[k8s_workers:vars]
+ansible_ssh_user=$LINUX_USER
+ansible_become=true
+ansible_connection=ssh
+ansible_ssh_pass=$LINUX_PASS
+ansible_sudo_pass=$LINUX_PASS
+
+[all:children]
+local
+k8s_workers
+
+
+[all:vars]
+virtual_ipaddress=$VIRTUAL_IPADDRESS
+metallb_ipaddress=$METALLLB_IPADDRESS
+metallb_range=$METALLLB_IPADDRESS
+image_tag=$IMAGE_TAG
+dns_name=demo.centerity
 EOF
         '''
 
         sh 'cat inventory'
+        sh 'cat hosts'
     }
 
     stage('init-install') {
