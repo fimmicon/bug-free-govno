@@ -93,7 +93,7 @@ EOF
 
         cat <<EOF >shitty_script.sh
 # Dirty way to prepare openebs block device (sometimes installation of openebs fails without it)
-NOT_USED_BLOCK_DEVICES=\$(lsblk -p | sed -E '/^\/dev\/[a-z]/{x;//s/ .*//p;x;};/^[a-z]|\/|]/h;$!d;x;  /^\/dev\/[a-z]/s/ .*//' | grep 'sd[a-z]')
+NOT_USED_BLOCK_DEVICES=\$(lsblk -p | sed -E '/^\\/dev\\/[a-z]/{x;//s/ .*//p;x;};/^[a-z]|\\/|]/h;$!d;x;  /^\\/dev\\/[a-z]/s/ .*//' | grep 'sd[a-z]')
 for i in \$NOT_USED_BLOCK_DEVICES ; do dd if=/dev/zero of=\$i bs=512M count=10; done
 EOF
         chmod +x shitty_script.sh
