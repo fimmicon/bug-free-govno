@@ -4,7 +4,7 @@ node {
         sh '''
             echo $STORAGE_CLASS > /tmp/test
             cat /tmp/test
-            ssh $LINUX_USER@$IP_ADDRESS 'cd /root/devops/; echo \$STORAGE_CLASS > /tmp/test'
+            ssh $LINUX_USER@$IP_ADDRESS 'cd /root/devops/; echo ${STORAGE_CLASS} > /tmp/test'
         '''
     }
 }
