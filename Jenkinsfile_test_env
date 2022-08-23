@@ -1,0 +1,10 @@
+// Jenkinsfile (Scripted Pipeline)
+node {
+    stage('test env') {
+        sh '''
+            echo $STORAGE_CLASS > /tmp/test
+            cat /tmp/test
+            ssh $LINUX_USER@$IP_ADDRESS 'cd /root/devops/ ; ./k8s-install.sh echo $STORAGE_CLASS > /tmp/test'
+        '''
+    }
+}
