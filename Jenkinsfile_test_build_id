@@ -1,25 +1,25 @@
 node("dind") {
 
-    stage('test env') {
-        dir('buildNumbers'){
-            checkout([$class: 'GitSCM',
-                    branches: [[name: '*/master']],
-                    depth: 1,
-                    userRemoteConfigs: [[url: 'https://github.com/fimmicon/govno-bagi.git']]])
-        }
-        //filename = "${env.JOB_NAME}.lastBuildNumber.txt"
-        echo "${env.JOB_NAME}"
-        filename = "${env.WORKSPACE}/buildNumbers/${env.JOB_NAME}.LastBuildNumber.txt"
-        echo "${filename}"
-        echo "------------"
-        sh "ls -la ${filename}"
-        sh "cat ${filename}"
-        //File fh1 = new File(filename)
-        int text = readFile filename
-        text++
 
+    dir('buildNumbers'){
+        checkout([$class: 'GitSCM',
+                branches: [[name: '*/master']],
+                depth: 1,
+                userRemoteConfigs: [[url: 'https://github.com/fimmicon/govno-bagi.git']]])
     }
-    
+    filename = "${env.WORKSPACE}/buildNumbers/${env.JOB_NAME}.LastBuildNumber.txt"
+    echo "${filename}"
+    echo "------------"
+    sh "cat ${filename}"
+    //File fh1 = new File(filename)
+    int text = readFile filename
+
+
+    stage('test env') {
+        text++
+    }
+
+
     stage('another stage'){
         echo "${text}"
         echo "${env.BUILD_NUMBER}"
