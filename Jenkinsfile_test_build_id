@@ -1,0 +1,8 @@
+nodei("dind") {
+    stage('test env') {
+        sh '''
+            echo ${env.BUILD_NUMBER}
+            
+        '''
+    }
+}
