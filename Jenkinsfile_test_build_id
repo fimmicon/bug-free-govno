@@ -1,6 +1,14 @@
 node("dind") {
     stage('test env') {
-        echo "${env.BUILD_NUMBER}"
-            
+        dir('buildNumber'){
+            checkout([$class: 'GitSCM',
+                    branches: [[name: '*/master']],
+                    depth: 1,
+                    userRemoteConfigs: [[url: 'https://github.com/fimmicon/govno-bagi.git']]])
+        }
+        sh 'ls -la ./buildNumber/'
+        
+        //echo "${env.BUILD_NUMBER}"
+        
     }
 }

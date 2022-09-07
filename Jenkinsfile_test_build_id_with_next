@@ -1,0 +1,12 @@
+node("dind") {
+    syncBuildID_And_ArtifactID()
+    stage('test env') {
+        //echo "${env.BUILD_NUMBER}"
+        echo "${env.JOB_NAME}"
+    }
+}
+
+def syncBuildID_And_ArtifactID() {
+    
+    Jenkins.instance.getItemByFullName("${env.JOB_NAME}").updateNextBuildNumber(50)
+}
