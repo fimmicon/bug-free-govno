@@ -1,8 +1,6 @@
 node("dind") {
     stage('test env') {
-        sh '''
-            echo ${env.BUILD_NUMBER}
+        echo ${env.BUILD_NUMBER}
             
-        '''
     }
 }
