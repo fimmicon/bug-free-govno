@@ -1,0 +1,12 @@
+trigger: none
+
+pool: default
+
+steps:
+- script: |
+    pwd
+  displayName: 'print working directory'
+
+- script: |
+    ls -la 
+  displayName: 'list files'
