@@ -14,3 +14,7 @@ steps:
 - script: |
     ls -la 
   displayName: 'list files'
+
+- script: |
+    echo $(Agent.BuildDirectory)
+  displayName: 'echo debug'
