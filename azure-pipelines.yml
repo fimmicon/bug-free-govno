@@ -15,6 +15,6 @@ steps:
     ls -la 
   displayName: 'list files'
 
-- script: |
-    echo $(Agent.BuildDirectory)
-  displayName: 'echo debug'
+- bash: echo Value of Agent.BuildDirectory = $BLA
+  env:
+    BLA: $(Agent.BuildDirectory)
