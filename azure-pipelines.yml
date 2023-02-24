@@ -3,7 +3,7 @@ trigger: none
 # pool: default
 pool: 
   name: default
-  demands: e-zaslavsky
+  demands: agent.name -equals e-zaslavsky
   
 
 steps:
