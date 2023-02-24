@@ -1,6 +1,10 @@
 trigger: none
 
-pool: default
+# pool: default
+pool: 
+  name: default
+  demands: e-zaslavsky
+  
 
 steps:
 - script: |
