@@ -24,8 +24,8 @@ steps:
 - bash: echo Value of Build.SourcesDirectory = $(Build.SourcesDirectory)
   displayName: 'Build.SourcesDirectory = $(Build.SourcesDirectory)'
 
-- bash: echo Value of Build.SourcesDirectory = $(Build.SourcesDirectory)
-  displayName: 'Build.SourcesDirectory = $(Build.SourcesDirectory)'
-
 - bash: echo Value of Build.BinariesDirectory = $(Build.BinariesDirectory)
   displayName: 'Build.BinariesDirectory = $(Build.BinariesDirectory)'
+
+- bash: echo Value of Build.ArtifactStagingDirectory = $(Build.ArtifactStagingDirectory)
+  displayName: 'Build.ArtifactStagingDirectory = $(Build.ArtifactStagingDirectory)'
