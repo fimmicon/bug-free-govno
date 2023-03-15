@@ -30,8 +30,8 @@ steps:
 - bash: echo Value of Build.ArtifactStagingDirectory = $(Build.ArtifactStagingDirectory)
   displayName: 'Build.ArtifactStagingDirectory = $(Build.ArtifactStagingDirectory)'
 
-- bash: echo Value of Build.TestResultsDirectory = $(Build.TestResultsDirectory)
-  displayName: 'Build.TestResultsDirectory = $(Build.TestResultsDirectory)'
+- bash: echo Value of Common.TestResultsDirectory = $(Common.TestResultsDirectory)
+  displayName: 'Common.TestResultsDirectory = $(Common.TestResultsDirectory)'
 
 - bash: echo Value of Build.DefinitionName = $(Build.DefinitionName)
   displayName: 'Build.DefinitionName = $(Build.DefinitionName)'
