@@ -18,6 +18,7 @@ steps:
 #   env:
 #     BLA: $(Agent.BuildDirectory)
 #   displayName: 'Agent.BuildDirectory = $(Agent.BuildDirectory)'
+
 - bash: echo Value of Agent.BuildDirectory = $(Agent.BuildDirectory)
   displayName: 'Agent.BuildDirectory = $(Agent.BuildDirectory)'
 
