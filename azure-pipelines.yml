@@ -15,7 +15,9 @@ steps:
     ls -la 
   displayName: 'list files'
 
-- bash: echo Value of Agent.BuildDirectory = $BLA
-  env:
-    BLA: $(Agent.BuildDirectory)
-  displayName: 'Print value of $(Agent.BuildDirectory)'
+# - bash: echo Value of Agent.BuildDirectory = $BLA
+#   env:
+#     BLA: $(Agent.BuildDirectory)
+#   displayName: 'Print value of $(Agent.BuildDirectory)'
+
+- bash: echo Value of Agent.BuildDirectory = $(Agent.BuildDirectory)
