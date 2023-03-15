@@ -1,10 +1,9 @@
 trigger: none
 
 # pool: default
-pool: 
+pool:
   name: default
   demands: agent.name -equals e-zaslavsky
-  
 
 steps:
 - script: |
@@ -12,12 +11,21 @@ steps:
   displayName: 'print working directory'
 
 - script: |
-    ls -la 
+    ls -la
   displayName: 'list files'
 
 # - bash: echo Value of Agent.BuildDirectory = $BLA
 #   env:
 #     BLA: $(Agent.BuildDirectory)
-#   displayName: 'Print value of $(Agent.BuildDirectory)'
-
+#   displayName: 'Agent.BuildDirectory = $(Agent.BuildDirectory)'
 - bash: echo Value of Agent.BuildDirectory = $(Agent.BuildDirectory)
+  displayName: 'Agent.BuildDirectory = $(Agent.BuildDirectory)'
+
+- bash: echo Value of Build.SourcesDirectory = $(Build.SourcesDirectory)
+  displayName: 'Build.SourcesDirectory = $(Build.SourcesDirectory)'
+
+- bash: echo Value of Build.SourcesDirectory = $(Build.SourcesDirectory)
+  displayName: 'Build.SourcesDirectory = $(Build.SourcesDirectory)'
+
+- bash: echo Value of Build.BinariesDirectory = $(Build.BinariesDirectory)
+  displayName: 'Build.BinariesDirectory = $(Build.BinariesDirectory)'
