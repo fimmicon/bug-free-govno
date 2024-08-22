@@ -12,7 +12,7 @@ jobs:
       RELEASE_REVIEWER: ThirdFimmiuser  # Define the user as a variable
 
     steps:
-      - name: Check release mode and add reviewer
+      - name: Check release mode and add reviewer if necessary
         if: env.RELEASE_MODE == 'true'
         run: |
           echo "Release mode is active, assigning $RELEASE_REVIEWER"
@@ -24,7 +24,7 @@ jobs:
             https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/requested_reviewers \
             -d "{\"reviewers\":[\"$RELEASE_REVIEWER\"]}"
 
-      - name: Check if the user has approved the PR
+      - name: Check if the release-related team has approved the PR
         if: env.RELEASE_MODE == 'true'
         run: |
           # Get the list of assigned reviewers
