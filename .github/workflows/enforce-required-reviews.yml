@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      RELEASE_REVIEWER: ThirdFimmiuser  # Define the user as a variable
+      RELEASE_REVIEWER: ThirdFimmiUser  # Define the user as a variable
 
     steps:
       - name: Check release mode and add reviewer if necessary
