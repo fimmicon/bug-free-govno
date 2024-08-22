@@ -32,6 +32,6 @@ jobs:
           #     echo "ccu2-release-reviewers has not approved the PR"
           #     exit 1  # Прерываем выполнение с ошибкой, что приведет к фейлу чека
           #   fi
-          else
-            echo "ccu2-release-reviewers is not assigned, skipping check"
-          fi
+          # else
+          #   echo "ccu2-release-reviewers is not assigned, skipping check"
+          # fi
