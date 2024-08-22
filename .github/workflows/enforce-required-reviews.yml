@@ -2,7 +2,7 @@ name: Enforce Required Reviews in Release Mode
 
 on:
   pull_request:
-    types: [opened, synchronize, review_requested, review_submitted, reopened]
+    types: [assigned, unassigned, labeled, unlabeled, opened, edited, closed, reopened, synchronize, ready_for_review, converted_to_draft, review_requested, review_request_removed, review_submitted, review_dismissed]
 
 jobs:
   enforce-reviews:
