@@ -19,3 +19,19 @@ jobs:
             https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/requested_reviewers)
           
           echo ASSIGNED_REVIEWERS = $ASSIGNED_REVIEWERS
+
+          # Check if the user is assigned
+          if echo "$ASSIGNED_REVIEWERS" | grep -q "$RELEASE_REVIEWER"; then
+            echo "$RELEASE_REVIEWER is already a reviewer, no need to add."
+          else
+            echo "$RELEASE_REVIEWER is not a reviewer yet, adding now."
+
+            # Add the reviewer user using curl
+            curl -X POST \
+              -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+              -H "Accept: application/vnd.github.v3+json" \
+              https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/requested_reviewers \
+              -d "{\"reviewers\":[\"$RELEASE_REVIEWER\"]}"
+
+            # Adding a short delay to ensure the reviewer is registered in the system
+            sleep 3
