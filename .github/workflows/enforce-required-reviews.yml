@@ -24,6 +24,10 @@ jobs:
             https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/requested_reviewers \
             -d "{\"reviewers\":[\"$RELEASE_REVIEWER\"]}"
 
+      - name: Wait for 3seconds
+        run: sleep 3
+
+
       - name: Check if the release-related team has approved the PR
         # if: env.RELEASE_MODE == 'true'
         run: |
