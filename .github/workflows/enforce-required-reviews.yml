@@ -19,9 +19,6 @@ jobs:
           ASSIGNED_REVIEWERS=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/requested_reviewers)
 
-          # Output the reviewers for debugging
-          echo "Assigned reviewers: $ASSIGNED_REVIEWERS"
-
           # Check if the user is assigned using if / else
           if [[ "$ASSIGNED_REVIEWERS" == *"$RELEASE_REVIEWER"* ]]; then
             echo "$RELEASE_REVIEWER is already a reviewer, no need to add."
