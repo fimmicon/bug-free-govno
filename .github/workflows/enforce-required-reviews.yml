@@ -22,8 +22,8 @@ jobs:
           # Output the reviewers for debugging
           echo "Assigned reviewers: $ASSIGNED_REVIEWERS"
 
-          # Check if the user is assigned using string matching
-          if [[ "$ASSIGNED_REVIEWERS" == *"\"login\":\"$RELEASE_REVIEWER\""* ]]; then
+          # Check if the user is assigned using if / else
+          if [[ "$ASSIGNED_REVIEWERS" == *"$RELEASE_REVIEWER"* ]]; then
             echo "$RELEASE_REVIEWER is already a reviewer, no need to add."
           else
             echo "$RELEASE_REVIEWER is not a reviewer yet, adding now."
@@ -37,19 +37,20 @@ jobs:
 
             # Adding a short delay to ensure the reviewer is registered in the system
             sleep 3
+          fi
 
-      # - name: Check if the reviewer has approved the PR
-      #   if: env.RELEASE_MODE == 'true'
-      #   run: |
-      #     # Get the review statuses for the PR
-      #     REVIEWS=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-      #       https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/reviews)
+      - name: Check if the reviewer has approved the PR
+        # if: env.RELEASE_MODE == 'true'
+        run: |
+          # Get the review statuses for the PR
+          REVIEWS=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/reviews)
 
-      #     # Check if the user has approved the PR
-      #     if [[ "$REVIEWS" == *"\"login\":\"$RELEASE_REVIEWER\"*\"state\":\"APPROVED\""* ]]; then
-      #       echo "$RELEASE_REVIEWER has approved the PR"
-      #     else
-      #       echo "$RELEASE_REVIEWER has not approved the PR"
-      #       echo "$RELEASE_REVIEWER approval is required since the release is kickstarted"
-      #       exit 1  # Fail the check if approval is missing
-      #     fi
+          # Check if the user has approved the PR
+          if [[ "$REVIEWS" == *"$RELEASE_REVIEWER"* && "$REVIEWS" == *"APPROVED"* ]]; then
+            echo "$RELEASE_REVIEWER has approved the PR"
+          else
+            echo "$RELEASE_REVIEWER has not approved the PR"
+            echo "$RELEASE_REVIEWER approval is required since the release is kickstarted"
+            exit 1  # Fail the check if approval is missing
+          fi
