@@ -19,7 +19,10 @@ jobs:
             https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/requested_reviewers)
           
           echo ASSIGNED_REVIEWERS = $ASSIGNED_REVIEWERS
-
+          echo "#####"
+          echo "$ASSIGNED_REVIEWERS" | grep -q "$RELEASE_REVIEWER";
+          echo "#####"
+        
           # Check if the user is assigned
           if echo "$ASSIGNED_REVIEWERS" | grep -q "$RELEASE_REVIEWER"; then
             echo "$RELEASE_REVIEWER is already a reviewer, no need to add."
