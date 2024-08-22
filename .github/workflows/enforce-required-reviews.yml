@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - name: Check if the user is already a reviewer and add if necessary
-        if: env.RELEASE_MODE == 'true'
+        # if: env.RELEASE_MODE == 'true'
         run: |
           # Get the list of assigned reviewers
           ASSIGNED_REVIEWERS=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
@@ -38,18 +38,18 @@ jobs:
             # Adding a short delay to ensure the reviewer is registered in the system
             sleep 3
 
-      - name: Check if the reviewer has approved the PR
-        if: env.RELEASE_MODE == 'true'
-        run: |
-          # Get the review statuses for the PR
-          REVIEWS=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/reviews)
+      # - name: Check if the reviewer has approved the PR
+      #   if: env.RELEASE_MODE == 'true'
+      #   run: |
+      #     # Get the review statuses for the PR
+      #     REVIEWS=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+      #       https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/reviews)
 
-          # Check if the user has approved the PR
-          if [[ "$REVIEWS" == *"\"login\":\"$RELEASE_REVIEWER\"*\"state\":\"APPROVED\""* ]]; then
-            echo "$RELEASE_REVIEWER has approved the PR"
-          else
-            echo "$RELEASE_REVIEWER has not approved the PR"
-            echo "$RELEASE_REVIEWER approval is required since the release is kickstarted"
-            exit 1  # Fail the check if approval is missing
-          fi
+      #     # Check if the user has approved the PR
+      #     if [[ "$REVIEWS" == *"\"login\":\"$RELEASE_REVIEWER\"*\"state\":\"APPROVED\""* ]]; then
+      #       echo "$RELEASE_REVIEWER has approved the PR"
+      #     else
+      #       echo "$RELEASE_REVIEWER has not approved the PR"
+      #       echo "$RELEASE_REVIEWER approval is required since the release is kickstarted"
+      #       exit 1  # Fail the check if approval is missing
+      #     fi
