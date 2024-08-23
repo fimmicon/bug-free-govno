@@ -15,8 +15,8 @@ jobs:
       - name: Check if the reviewer is assigned or has left a review
         if: ${{ vars.RELEASE_MODE == 'true' }}
         run: |
-	  echo "aaaaaaaa"
           PR_NUMBER="${{ github.event.pull_request.number }}"
+	  echo aaaaaaaa
           
           # Get the list of assigned reviewers
           ASSIGNED_REVIEWERS=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
