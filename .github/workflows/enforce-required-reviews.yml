@@ -17,7 +17,6 @@ jobs:
       - name: Check if the reviewer is assigned or has left a review
         if: ${{ vars.RELEASE_MODE == 'true' }}
         run: |
-          set -x
           PR_NUMBER="${{ github.event.pull_request.number }}"
           
           # Get the list of assigned reviewers
@@ -46,17 +45,22 @@ jobs:
             # Adding a short delay to ensure the reviewer is registered in the system
             sleep 3
           fi
-      # - name: Check if the reviewer has approved the PR
-      #   if: ${{ vars.RELEASE_MODE == 'true' }}
-      #   run: |
-      #     # Get the review statuses for the PR
-      #     REVIEWS=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-      #       https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/reviews)
 
-      #     # Check if the RELEASE_REVIEWER has approved the PR
-      #     if echo "$REVIEWS" | jq -e '.[] | select(.user.login == "'"$RELEASE_REVIEWER"'") | select(.state == "APPROVED")' > /dev/null; then
-      #       echo "$RELEASE_REVIEWER has approved the PR"
-      #     else
-      #       echo "$RELEASE_REVIEWER has not approved the PR"
-      #       echo "$RELEASE_REVIEWER approval is required since the release is kickstarted"
-      #       exit 1  # Fail the check if approval is missing
+      - name: Check if the reviewer has approved the PR
+        if: ${{ vars.RELEASE_MODE == 'true' }}
+        run: |
+          set -x
+          PR_NUMBER="${{ github.event.pull_request.number }}"
+
+          # Get the review statuses for the PR
+          REVIEWS=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/${{ github.repository }}/pulls/$PR_NUMBER/reviews)
+
+          # Check if the RELEASE_REVIEWER has approved the PR
+          if echo "$REVIEWS" | jq -e '.[] | select(.user.login == "'"$RELEASE_REVIEWER"'") | select(.state == "APPROVED")' > /dev/null; then
+            echo "$RELEASE_REVIEWER has approved the PR"
+          else
+            echo "$RELEASE_REVIEWER has not approved the PR"
+            echo "$RELEASE_REVIEWER approval is required since the release is kickstarted"
+            exit 1  # Fail the check if approval is missing
+          fi
