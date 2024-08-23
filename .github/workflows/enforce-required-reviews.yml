@@ -44,6 +44,7 @@ jobs:
 
             # Adding a short delay to ensure the reviewer is registered in the system
             sleep 3
+            echo abcabcabc
           fi
 
       - name: Check if the reviewer has approved the PR
