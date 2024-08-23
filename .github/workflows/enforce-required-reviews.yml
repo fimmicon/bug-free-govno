@@ -14,6 +14,22 @@ jobs:
       RELEASE_REVIEWER: ThirdFimmiUser  # Define the user as a variable
 
     steps:
+      - name: Create or Update Check Status
+        id: create-check
+        run: |
+          CHECK_RUN_ID=$(curl -s \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "name": "Enforce Required Reviews",
+              "head_sha": "${{ github.sha }}",
+              "status": "in_progress"
+            }' \
+            https://api.github.com/repos/${{ github.repository }}/check-runs \
+            | jq -r '.id')
+
+          echo "CHECK_RUN_ID=$CHECK_RUN_ID" >> $GITHUB_ENV
+
       - name: Check if the user is already a reviewer and add if necessary
         # if: env.RELEASE_MODE == 'true'
         run: |
@@ -36,7 +52,6 @@ jobs:
 
             # Adding a short delay to ensure the reviewer is registered in the system
             sleep 3
-          fi
 
       - name: Check if the reviewer has approved the PR
         # if: env.RELEASE_MODE == 'true'
@@ -52,4 +67,15 @@ jobs:
             echo "$RELEASE_REVIEWER has not approved the PR"
             echo "$RELEASE_REVIEWER approval is required since the release is kickstarted"
             exit 1  # Fail the check if approval is missing
-          fi
+
+      - name: Complete Check Run
+        if: success() || failure()
+        run: |
+          curl -s \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "status": "completed",
+              "conclusion": "success"
+            }' \
+            https://api.github.com/repos/${{ github.repository }}/check-runs/${{ env.CHECK_RUN_ID }}
