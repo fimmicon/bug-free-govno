@@ -28,6 +28,8 @@ jobs:
             https://api.github.com/repos/${{ github.repository }}/check-runs \
             | jq -r '.id')
 
+          echo CHECK_RUN_ID === $CHECK_RUN_ID
+
           echo "CHECK_RUN_ID=$CHECK_RUN_ID" >> $GITHUB_ENV
 
       - name: Check if the user is already a reviewer and add if necessary
