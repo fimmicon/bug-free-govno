@@ -58,6 +58,7 @@ jobs:
 
             # Adding a short delay to ensure the reviewer is registered in the system
             sleep 3
+          fi
 
       - name: Check if the reviewer has approved the PR
         # if: env.RELEASE_MODE == 'true'
@@ -73,6 +74,7 @@ jobs:
             echo "$RELEASE_REVIEWER has not approved the PR"
             echo "$RELEASE_REVIEWER approval is required since the release is kickstarted"
             exit 1  # Fail the check if approval is missing
+          fi
 
       - name: Complete Check Run
         if: success() || failure()
