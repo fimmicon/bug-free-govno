@@ -3,8 +3,8 @@ name: Enforce Required Reviews in Release Mode
 on:
   pull_request:
     types: [assigned, unassigned, labeled, unlabeled, edited, closed, reopened, synchronize, ready_for_review, converted_to_draft, review_requested, review_request_removed]
-  pull_request_review:
-    types: [submitted]
+  # pull_request_review:
+  #   types: [submitted]
 
 jobs:
   enforce-reviews:
@@ -14,30 +14,13 @@ jobs:
       RELEASE_REVIEWER: ThirdFimmiUser  # Define the user as a variable
 
     steps:
-      - name: Create or Update Check Status
-        id: create-check
-        run: |
-          CHECK_RUN_ID=$(curl -s \
-            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            -d '{
-              "name": "Enforce Required Reviews",
-              "head_sha": "${{ github.sha }}",
-              "status": "in_progress"
-            }' \
-            https://api.github.com/repos/${{ github.repository }}/check-runs \
-            | jq -r '.id')
-
-          echo CHECK_RUN_ID === $CHECK_RUN_ID
-
-          echo "CHECK_RUN_ID=$CHECK_RUN_ID" >> $GITHUB_ENV
-
       - name: Check if the user is already a reviewer and add if necessary
         # if: env.RELEASE_MODE == 'true'
         run: |
           # Get the list of assigned reviewers
-          ASSIGNED_REVIEWERS=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/requested_reviewers)
-            
+          ASSIGNED_REVIEWERS=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/requested_reviewers)
+
           # Check if the user is assigned using if / else
           if [[ "$ASSIGNED_REVIEWERS" == *"$RELEASE_REVIEWER"* ]]; then
             echo "$RELEASE_REVIEWER is already a reviewer, no need to add."
@@ -70,15 +53,3 @@ jobs:
             echo "$RELEASE_REVIEWER approval is required since the release is kickstarted"
             exit 1  # Fail the check if approval is missing
           fi
-
-      - name: Complete Check Run
-        if: success() || failure()
-        run: |
-          curl -s \
-            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            -d '{
-              "status": "completed",
-              "conclusion": "success"
-            }' \
-            https://api.github.com/repos/${{ github.repository }}/check-runs/${{ env.CHECK_RUN_ID }}
