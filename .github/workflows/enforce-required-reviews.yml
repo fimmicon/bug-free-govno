@@ -31,8 +31,7 @@ jobs:
           if [[ "$ASSIGNED_REVIEWERS" == *"$RELEASE_REVIEWER"* ]]; then
             echo "$RELEASE_REVIEWER is already a reviewer."
           else
-            echo "$RELEASE_REVIEWER is not a reviewer yet, adding now
-          fi
+            echo "$RELEASE_REVIEWER is not a reviewer yet, adding now"
 
             # Add the reviewer
             curl -X POST \
@@ -43,7 +42,7 @@ jobs:
 
             # Short delay to ensure the reviewer is registered
             sleep 3
-
+          fi
 
 
       - name: Check if Reviewer Approved
