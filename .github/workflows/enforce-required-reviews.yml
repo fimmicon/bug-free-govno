@@ -22,7 +22,12 @@ jobs:
           ASSIGNED_REVIEWERS=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/requested_reviewers)
 
-          # Check if the user is assigned using if / else
+          # Check if the user is assigned using if / else 1
+          if "$ASSIGNED_REVIEWERS" | grep -q "$RELEASE_REVIEWERS"; then
+            echo "$RELEASE_REVIEWER is already a reviewer, no need to add."
+          fi
+
+          # Check if the user is assigned using if / else 2
           if [[ "$ASSIGNED_REVIEWERS" == *"$RELEASE_REVIEWER"* ]]; then
             echo "$RELEASE_REVIEWER is already a reviewer, no need to add."
           else
