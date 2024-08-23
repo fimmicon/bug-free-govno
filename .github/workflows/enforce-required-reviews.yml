@@ -44,23 +44,29 @@ jobs:
             sleep 3
           fi
 
-
-      - name: Check if Reviewer Approved
-        if: ${{ vars.RELEASE_MODE == 'true' && github.event_name == 'pull_request_review' }}
-        run: |
-          set -x
-          PR_NUMBER="${{ github.event.pull_request.number }}"
-          
-          # Check if the PR has been approved by the RELEASE_REVIEWER
-          echo "Checking if $RELEASE_REVIEWER has approved the PR..."
-          REVIEWS=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            https://api.github.com/repos/${{ github.repository }}/pulls/$PR_NUMBER/reviews)
-
-          # Verify if the REVIEWER has approved the PR
-          if [[ "$REVIEWS" == *"$RELEASE_REVIEWER"* && "$REVIEWS" == *"APPROVED"* ]]; then
-            echo "$RELEASE_REVIEWER has approved the PR."
-          else
-            echo "$RELEASE_REVIEWER has not approved the PR."
-            echo "Approval from $RELEASE_REVIEWER is required before merging."
-            exit 1  # Fail the check if approval is missing
-          fi
+  enforce-reviews2:
+      runs-on: ubuntu-latest
+  
+      env:
+        RELEASE_REVIEWER: ThirdFimmiUser  # Define the reviewer
+  
+      steps:
+        - name: Check if Reviewer Approved
+          if: ${{ vars.RELEASE_MODE == 'true' && github.event_name == 'pull_request_review' }}
+          run: |
+            set -x
+            PR_NUMBER="${{ github.event.pull_request.number }}"
+            
+            # Check if the PR has been approved by the RELEASE_REVIEWER
+            echo "Checking if $RELEASE_REVIEWER has approved the PR..."
+            REVIEWS=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+              https://api.github.com/repos/${{ github.repository }}/pulls/$PR_NUMBER/reviews)
+  
+            # Verify if the REVIEWER has approved the PR
+            if [[ "$REVIEWS" == *"$RELEASE_REVIEWER"* && "$REVIEWS" == *"APPROVED"* ]]; then
+              echo "$RELEASE_REVIEWER has approved the PR."
+            else
+              echo "$RELEASE_REVIEWER has not approved the PR."
+              echo "Approval from $RELEASE_REVIEWER is required before merging."
+              exit 1  # Fail the check if approval is missing
+            fi
