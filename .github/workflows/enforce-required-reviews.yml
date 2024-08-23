@@ -15,7 +15,7 @@ jobs:
 
     steps:
       - name: Ensure Release Reviewer is Assigned and Approved
-        if: env.RELEASE_MODE == 'false'
+        if: env.RELEASE_MODE == 'true'
         run: |
           # Определяем, какое событие вызвало воркфлоу
           EVENT_NAME="${{ github.event_name }}"
