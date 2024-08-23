@@ -31,7 +31,8 @@ jobs:
           if [[ "$ASSIGNED_REVIEWERS" == *"$RELEASE_REVIEWER"* ]]; then
             echo "$RELEASE_REVIEWER is already a reviewer."
           else
-            echo "$RELEASE_REVIEWER is not a reviewer yet, adding now."
+            echo "$RELEASE_REVIEWER is not a reviewer yet, adding now
+          fi
 
             # Add the reviewer
             curl -X POST \
@@ -63,3 +64,4 @@ jobs:
             echo "$RELEASE_REVIEWER has not approved the PR."
             echo "Approval from $RELEASE_REVIEWER is required before merging."
             exit 1  # Fail the check if approval is missing
+          fi
