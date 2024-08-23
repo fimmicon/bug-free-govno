@@ -2,9 +2,7 @@ name: Enforce Required Reviews in Release Mode
 
 on:
   pull_request:
-    types: [opened, reopened, ready_for_review, synchronize]  # Включаем необходимые события для обработки PR
-  pull_request_review:
-    types: [submitted]  # Обработка событий ревью
+    types: [opened, synchronize, reopened]
 
 jobs:
   enforce-reviews:
@@ -14,49 +12,42 @@ jobs:
       RELEASE_REVIEWER: ThirdFimmiUser  # Define the user as a variable
 
     steps:
-      - name: Ensure Release Reviewer is Assigned and Approved
-        if: env.RELEASE_MODE == 'true'
+      - name: Check if the user is already a reviewer and add if necessary
+        if: ${{ vars.RELEASE_MODE == 'true' }}
         run: |
-          # Определяем, какое событие вызвало воркфлоу
-          EVENT_NAME="${{ github.event_name }}"
-          PR_NUMBER="${{ github.event.pull_request.number }}"
-          
-          # Логика для событий pull_request
-          if [[ "$EVENT_NAME" == "pull_request" ]]; then
-            echo "Handling pull_request event..."
+          # Get the list of assigned reviewers
+          ASSIGNED_REVIEWERS=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/requested_reviewers)
 
-            # Получаем список назначенных рецензентов
-            ASSIGNED_REVIEWERS=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-              https://api.github.com/repos/${{ github.repository }}/pulls/$PR_NUMBER/requested_reviewers)
+          # Check if the user is assigned using if / else
+          if [[ "$ASSIGNED_REVIEWERS" == *"$RELEASE_REVIEWER"* ]]; then
+            echo "$RELEASE_REVIEWER is already a reviewer, no need to add."
+          else
+            echo "$RELEASE_REVIEWER is not a reviewer yet, adding now."
 
-            # Проверяем, назначен ли RELEASE_REVIEWER
-            if [[ "$ASSIGNED_REVIEWERS" == *"$RELEASE_REVIEWER"* ]]; then
-              echo "$RELEASE_REVIEWER is already a reviewer."
-            else
-              echo "$RELEASE_REVIEWER is not a reviewer yet, adding now."
+            # Add the reviewer user using curl
+            curl -X POST \
+              -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+              -H "Accept: application/vnd.github.v3+json" \
+              https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/requested_reviewers \
+              -d "{\"reviewers\":[\"$RELEASE_REVIEWER\"]}"
 
-              # Добавляем рецензента
-              curl -X POST \
-                -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-                -H "Accept: application/vnd.github.v3+json" \
-                https://api.github.com/repos/${{ github.repository }}/pulls/$PR_NUMBER/requested_reviewers \
-                -d "{\"reviewers\":[\"$RELEASE_REVIEWER\"]}"
-
-              # Короткая пауза для завершения добавления рецензента
-              sleep 3
-            fi
+            # Adding a short delay to ensure the reviewer is registered in the system
+            sleep 3
           fi
 
-          # Логика для проверки, одобрен ли PR, применяется к обоим событиям
-          echo "Checking if $RELEASE_REVIEWER has approved the PR..."
+      - name: Check if the reviewer has approved the PR
+        if: ${{ vars.RELEASE_MODE == 'true' }}
+        run: |
+          # Get the review statuses for the PR
           REVIEWS=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            https://api.github.com/repos/${{ github.repository }}/pulls/$PR_NUMBER/reviews)
+            https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/reviews)
 
-          # Проверяем, есть ли аппрув от RELEASE_REVIEWER
+          # Check if the user has approved the PR
           if [[ "$REVIEWS" == *"$RELEASE_REVIEWER"* && "$REVIEWS" == *"APPROVED"* ]]; then
-            echo "$RELEASE_REVIEWER has approved the PR."
+            echo "$RELEASE_REVIEWER has approved the PR"
           else
-            echo "$RELEASE_REVIEWER has not approved the PR."
-            echo "Approval from $RELEASE_REVIEWER is required before merging."
-            exit 1  # Фейлим чек, если аппрува нет
+            echo "$RELEASE_REVIEWER has not approved the PR"
+            echo "$RELEASE_REVIEWER approval is required since the release is kickstarted"
+            exit 1  # Fail the check if approval is missing
           fi
